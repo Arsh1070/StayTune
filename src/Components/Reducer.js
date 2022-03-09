@@ -1,7 +1,6 @@
 export const initial = {
-  user: null,
   playlists: [],
-  playlist_Id: null,
+  defaultPlaylist_Id: "2jF6eajbFzjfDo9nC3cviC",
   playlist_Info: null,
   spotify: null,
   album_songs: null,
@@ -18,15 +17,20 @@ const reducer = (state, action) => {
         ...state,
         token: action.token,
       };
+    case "Set_spotify":
+      return {
+        ...state,
+        spotify: action.spotify,
+      };
     case "Set_playlists":
       return {
         ...state,
         playlists: action.data,
       };
-    case "Set_playlistId":
+    case "Set_platListId":
       return {
         ...state,
-        playlist_Id: action.Id_val,
+        defaultPlaylist_Id: action.playlist_Id,
       };
     case "Get_tracks":
       return {

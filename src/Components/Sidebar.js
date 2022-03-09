@@ -1,18 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import SearchIcon from "@material-ui/icons/Search";
 import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 import { SidebarIcon } from "./optionIcon";
 import { useStateValue } from "./contextWarper";
 
-export const Sidebar = ({ spotify }) => {
-  const [{ playlists, playlist_Id, searchbar }, dispatch] = useStateValue();
+export const Sidebar = () => {
+  const [{ spotify, playlists, defaultPlaylist_Id, searchbar }, dispatch] =
+    useStateValue();
+  const [playlistId, setPlayListId] = useState(defaultPlaylist_Id);
 
   const handlePlaylist = (playlistId) => {
-    return dispatch({
-      type: "Set_playlistId",
-      Id_val: playlistId,
-    });
+    return setPlayListId(playlistId);
   };
 
   const handleSearch = () => {
@@ -24,16 +23,15 @@ export const Sidebar = ({ spotify }) => {
   };
 
   useEffect(() => {
-    if (playlist_Id != null) {
-      spotify.getPlaylist(`${playlist_Id}`).then((res) => {
-        dispatch({
-          type: "Get_tracks",
-          songs: res.tracks.items,
-          playlistInfo: res,
-        });
+    dispatch({ type: "Set_platListId", playlist_Id: playlistId });
+    spotify.getPlaylist(`${playlistId}`).then((res) => {
+      dispatch({
+        type: "Get_tracks",
+        songs: res.tracks.items,
+        playlistInfo: res,
       });
-    }
-  }, [playlist_Id, spotify, dispatch]);
+    });
+  }, [spotify, dispatch, playlistId]);
 
   return (
     <div className="sidebar">

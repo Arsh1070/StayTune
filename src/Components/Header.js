@@ -2,16 +2,13 @@ import React, { useState, useEffect } from "react";
 import Search from "@material-ui/icons/Search";
 import { Avatar } from "@material-ui/core";
 import { useStateValue } from "./contextWarper";
-export const Header = ({ spotify }) => {
-  const [{ searchbar }] = useStateValue();
-  const [url, setUrl] = useState("#");
-  const [name, setName] = useState("");
+
+const Header = () => {
+  const [{ searchbar, spotify }] = useStateValue();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    spotify.getMe().then((res) => {
-      setUrl(res.images[0].url);
-      setName(res.display_name);
-    });
+    spotify.getMe().then((user) => setUser(user));
   }, [spotify]);
 
   return (
@@ -25,9 +22,15 @@ export const Header = ({ spotify }) => {
         <div className="header_left1"></div>
       )}
       <div className="header_right">
-        <Avatar src={url} alt="pic" />
-        <h4>{name} </h4>
+        {user && (
+          <>
+            <Avatar src={user.images[0].url} alt="pic" />
+            <h4>{user.display_name} </h4>
+          </>
+        )}
       </div>
     </div>
   );
 };
+
+export default React.memo(Header);

@@ -4,14 +4,14 @@ import { MainBody } from "./MainBody";
 import { Sidebar } from "./Sidebar";
 import "./MainScreen.css";
 
-export const MainScreen = ({ spotify }) => {
+export const MainScreen = () => {
   return (
     <div className="main">
       <div className="bodySection">
-        <Sidebar spotify={spotify} />
-        <MainBody spotify={spotify} />
+        <Sidebar />
+        <MainBody />
       </div>
-      <Footer spotify={spotify} />
+      <Footer />
     </div>
   );
 };

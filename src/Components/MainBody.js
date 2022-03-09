@@ -1,5 +1,5 @@
 import React from "react";
-import { Header } from "./Header";
+import Header from "./Header";
 import { useStateValue } from "./contextWarper";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
@@ -7,13 +7,14 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { SongRow } from "./SongRow";
 
-export const MainBody = ({ spotify }) => {
-  const [{ playlist_Id, playlist_Info, playing }, dispatch] = useStateValue();
+export const MainBody = () => {
+  const [{ spotify, defaultPlaylist_Id, playlist_Info, playing }, dispatch] =
+    useStateValue();
 
-  const playPlaylist = (playlistId) => {
+  const playPlaylist = () => {
     spotify
       .play({
-        context_uri: `spotify:playlist:${playlistId}`,
+        context_uri: `spotify:playlist:${defaultPlaylist_Id}`,
       })
       .then((res) => {
         spotify.getMyCurrentPlayingTrack().then((r) => {
@@ -29,18 +30,12 @@ export const MainBody = ({ spotify }) => {
       });
   };
 
-  const handlePlayPause = () => {
+  const playPauselist = () => {
     if (playing) {
       spotify.pause();
       dispatch({
         type: "Set_playing",
         playing: false,
-      });
-    } else {
-      spotify.play();
-      dispatch({
-        type: "Set_playing",
-        playing: true,
       });
     }
   };
@@ -48,7 +43,7 @@ export const MainBody = ({ spotify }) => {
   return (
     <div className="mainBody">
       <div className="body_upper">
-        <Header spotify={spotify} />
+        <Header />
         {playlist_Info && (
           <div className="body_info">
             <div className="img_container">
@@ -67,13 +62,13 @@ export const MainBody = ({ spotify }) => {
         <div className="lower_icon">
           {playing ? (
             <PauseIcon
-              onClick={handlePlayPause}
+              onClick={playPauselist}
               className="play_icon"
               fontSize="large"
             />
           ) : (
             <PlayArrowIcon
-              onClick={() => playPlaylist(playlist_Id)}
+              onClick={playPlaylist}
               className="play_icon"
               fontSize="large"
             />
@@ -81,7 +76,7 @@ export const MainBody = ({ spotify }) => {
           <FavoriteIcon fontSize="large" className="heart" />
           <MoreHorizIcon className="horizon_icon" fontSize="large" />
         </div>
-        <SongRow spotify={spotify} />
+        <SongRow />
       </div>
     </div>
   );

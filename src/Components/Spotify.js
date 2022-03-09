@@ -1,8 +1,7 @@
-import SpotifyWebApi from "spotify-web-api-js";
-export const authEndpoint = "https://accounts.spotify.com/authorize";
+export const authEndpoint = process.env.REACT_APP_Auth_EndPoint;
 
 const clientId = process.env.REACT_APP_Client_Id;
-const redirectUri = "http://localhost:3000/";
+const redirectUri = process.env.REACT_APP_Redirect_Uri;
 
 const scopes = [
   "user-read-email",
@@ -33,5 +32,3 @@ export const getTokenFromUrl = () => {
 export const loginUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
   "%20"
 )}&response_type=token&show_dialog=true`;
-const spotify = new SpotifyWebApi();
-export default spotify;

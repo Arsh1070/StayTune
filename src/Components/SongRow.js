@@ -2,8 +2,8 @@ import React from "react";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import { useStateValue } from "./contextWarper";
 
-export const SongRow = ({ spotify, id }) => {
-  const [{ album_songs }, dispatch] = useStateValue();
+export const SongRow = ({ id }) => {
+  const [{ spotify, album_songs }, dispatch] = useStateValue();
 
   const handleSongId = (songItem) => {
     spotify

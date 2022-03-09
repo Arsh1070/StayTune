@@ -11,8 +11,8 @@ import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import PlaylistPlayIcon from "@material-ui/icons/PlaylistPlay";
 import { useStateValue } from "./contextWarper";
 
-export const Footer = ({ spotify }) => {
-  const [{ item, playing }, dispatch] = useStateValue();
+export const Footer = () => {
+  const [{ spotify, item, playing }, dispatch] = useStateValue();
   const [volume, setVolume] = useState(50);
 
   useEffect(() => {
@@ -22,18 +22,18 @@ export const Footer = ({ spotify }) => {
     });
   }, [spotify, dispatch]);
 
-  useEffect(() => {
-    if (volume > 0 && volume < 100) {
-      debouncedAdjustVolume(volume);
-    }
-  }, [volume]);
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedAdjustVolume = useCallback(
     debounce((volume) => {
       spotify.setVolume(volume).catch((err) => err);
     }, 100),
     []
   );
+  useEffect(() => {
+    if (volume > 0 && volume < 100) {
+      debouncedAdjustVolume(volume);
+    }
+  }, [volume, debouncedAdjustVolume]);
 
   const handlePlayPause = () => {
     if (playing) {
