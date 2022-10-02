@@ -24,7 +24,7 @@ const Header = () => {
       <div className="header_right">
         {user && (
           <>
-            <Avatar src={user.images[0].url} alt="pic" />
+            <Avatar src={user?.images[0]?.url} alt="pic" />
             <h4>{user.display_name} </h4>
           </>
         )}
